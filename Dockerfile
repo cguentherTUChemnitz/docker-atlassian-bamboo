@@ -4,11 +4,12 @@ FROM openjdk:8-alpine
 ENV BAMBOO_HOME     /var/atlassian/bamboo
 ENV BAMBOO_INSTALL  /opt/atlassian/bamboo
 ENV BAMBOO_VERSION  6.3.2
+ARG DOCKER_GID
 
 # Install Atlassian Bamboo and helper tools and setup initial home
 # directory structure.
 RUN set -x \
-    && apk add --no-cache curl xmlstarlet git openssh bash \
+    && apk add --no-cache curl xmlstarlet git git-lfs shadow openssh bash docker \
     && mkdir -p               "${BAMBOO_HOME}/lib" \
     && chmod -R 700           "${BAMBOO_HOME}" \
     && chown -R daemon:daemon "${BAMBOO_HOME}" \
@@ -28,7 +29,10 @@ RUN set -x \
 # Use the default unprivileged account. This could be considered bad practice
 # on systems where multiple processes end up being executed by 'daemon' but
 # here we only ever run one process anyway.
-USER daemon:daemon
+# DOCKER_GID has to be set to host's docker gid.
+RUN groupmod -g ${DOCKER_GID} docker && \
+    usermod -aG docker daemon
+USER daemon
 
 # Expose default HTTP and SSH ports.
 EXPOSE 8085 54663
