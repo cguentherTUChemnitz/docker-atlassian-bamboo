@@ -3,13 +3,13 @@ FROM openjdk:8-alpine
 # Setup useful environment variables
 ENV BAMBOO_HOME     /var/atlassian/bamboo
 ENV BAMBOO_INSTALL  /opt/atlassian/bamboo
-ENV BAMBOO_VERSION  6.3.2
+ENV BAMBOO_VERSION  6.5.0
 ARG DOCKER_GID
 
 # Install Atlassian Bamboo and helper tools and setup initial home
 # directory structure.
 RUN set -x \
-    && apk add --no-cache curl xmlstarlet git git-lfs shadow openssh bash docker \
+    && apk add --no-cache curl xmlstarlet git git-lfs shadow openssh bash docker openssh bash ttf-dejavu libc6-compat \
     && mkdir -p               "${BAMBOO_HOME}/lib" \
     && chmod -R 700           "${BAMBOO_HOME}" \
     && chown -R daemon:daemon "${BAMBOO_HOME}" \
