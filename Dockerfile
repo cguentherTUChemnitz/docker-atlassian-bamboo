@@ -32,7 +32,9 @@ RUN set -x \
 # here we only ever run one process anyway.
 # DOCKER_GID has to be set to host's docker gid.
 RUN groupmod -g ${DOCKER_GID} docker && \
-    usermod -aG docker daemon 
+    usermod -aG docker daemon && \
+    mkdir -p /sbin/.docker && \
+    chown daemon:daemon /sbin/.docker
 USER daemon
 
 # Expose default HTTP and SSH ports.
