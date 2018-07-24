@@ -3,8 +3,9 @@ FROM openjdk:8-alpine
 # Setup useful environment variables
 ENV BAMBOO_HOME     /var/atlassian/bamboo
 ENV BAMBOO_INSTALL  /opt/atlassian/bamboo
-ENV BAMBOO_VERSION  6.6.0
+ENV BAMBOO_VERSION  6.6.1
 ARG DOCKER_GID
+
 
 # Install Atlassian Bamboo and helper tools and setup initial home
 # directory structure.
@@ -31,7 +32,7 @@ RUN set -x \
 # here we only ever run one process anyway.
 # DOCKER_GID has to be set to host's docker gid.
 RUN groupmod -g ${DOCKER_GID} docker && \
-    usermod -aG docker daemon
+    usermod -aG docker daemon 
 USER daemon
 
 # Expose default HTTP and SSH ports.
