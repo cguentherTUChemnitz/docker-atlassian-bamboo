@@ -37,7 +37,7 @@ RUN groupmod -g ${DOCKER_GID} docker && \
     usermod -aG docker bamboo && \
     mkdir -p /sbin/.docker && \
     chown bamboo:bamboo /sbin/.docker
-USER bamboo:bamboo
+USER bamboo
 
 
 # Expose default HTTP and SSH ports.
